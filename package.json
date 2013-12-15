@@ -1,0 +1,32 @@
+{
+  "name": "mongoose-trackable",
+  "version": "0.0.1",
+  "description": "keeps track of when the document has been created, updated and optionally when some fields has been changed",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive --reporter=spec --colors spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielelana/mongoose-trackable"
+  },
+  "keywords": [
+    "mongoose",
+    "plugin",
+    "timestamp",
+    "created",
+    "updated",
+    "changed"
+  ],
+  "author": "gabriele.lana@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielelana/mongoose-trackable/issues"
+  },
+  "homepage": "https://github.com/gabrielelana/mongoose-trackable",
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "mongoose": "~3.8.2",
+    "chai": "~1.8.1"
+  }
+}
