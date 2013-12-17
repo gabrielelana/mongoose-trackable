@@ -28,5 +28,8 @@
     "mocha": "~1.15.1",
     "mongoose": "~3.8.2",
     "chai": "~1.8.1"
+  },
+  "dependencies": {
+    "lodash": "~2.4.1"
   }
 }

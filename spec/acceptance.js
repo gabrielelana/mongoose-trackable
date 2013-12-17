@@ -16,19 +16,55 @@ describe('mongoose-trackable', function() {
 
   describe('plugged into a mongoose.Schema', function() {
     before(function() {
-      this.Trackable = mongoose.model('Trackable', (function(Trackable) {
-        Trackable.add({anyField: String})
-        Trackable.plugin(trackable)
-        return Trackable
-      })(new mongoose.Schema()))
+      this.modelWithTrackablePlugin = function(name, options) {
+        return mongoose.model(name, new mongoose.Schema().plugin(trackable, options))
+      }
     })
 
     it('should add createdAt and updatedAt fields', function(done) {
-      this.Trackable.create({anyField: 'any value'}, function(err, doc) {
-        expect(doc).to.have.property('createdAt')
-        expect(doc).to.have.property('updatedAt')
-        done()
-      })
+      this.modelWithTrackablePlugin('Trackable')
+        .create({}, function(err, doc) {
+          expect(doc).to.have.property('createdAt')
+          expect(doc).to.have.property('updatedAt')
+          done()
+        })
+    })
+
+    it('should update updatedAt on save', function(done) {
+      this.modelWithTrackablePlugin('TrackableWillTrackUpdates')
+        .create({}, function(err, doc) {
+          var firstTimeUpdatedAt = doc.updatedAt
+          process.nextTick(function() {
+            doc.save(function(err, doc) {
+              expect(doc.updatedAt).to.be.gt(firstTimeUpdatedAt)
+              done()
+            })
+          })
+        })
+    })
+
+    it('could customize createdAt field name with createdAt option', function(done) {
+      this.modelWithTrackablePlugin(
+          'TrackableWithCustomCreatedAtField',
+          {createdAt: 'created_at'}
+        )
+        .create({}, function(err, doc) {
+          expect(doc).to.have.property('created_at')
+          expect(doc).to.not.have.property('createdAt')
+          done()
+        })
+    })
+
+    it('could customize updatedAt field name with updatedAt option', function(done) {
+      this.modelWithTrackablePlugin(
+          'TrackableWithCustomUpdatedAtField',
+          {updatedAt: 'updated_at'}
+        )
+        .create({}, function(err, doc) {
+          expect(doc).to.have.property('updated_at')
+          expect(doc).to.not.have.property('updatedAt')
+          done()
+        })
     })
   })
 })

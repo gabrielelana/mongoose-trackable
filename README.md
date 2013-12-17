@@ -2,7 +2,6 @@
 Is a mongoose plugin that automatically keeps track of when the document has been created, updated and optionally when some fields has been changed
 
 # TODO
-* createdAt, updatedAt fields should be customizable
 * createdAt, updatedAt values should be injectable for testing purpose
 * some fields should be declared trackable to obtain something like
   ```

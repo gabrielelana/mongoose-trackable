@@ -1,12 +1,21 @@
+var _ = require('lodash')
 
 module.exports = function(schema, options) {
-  schema.add({
-    createdAt: {type: Date, default: function() {return new Date()}},
-    updatedAt: {type: Date, default: function() {return new Date()}}
-  })
+  options = _.extend(
+    { createdAt: 'createdAt',
+      updatedAt: 'updatedAt',
+    },
+    options || {}
+  )
+
+  schema.add((function(fields) {
+    fields[options.createdAt] = {type: Date, default: function() {return new Date()}}
+    fields[options.updatedAt] = {type: Date, default: function() {return new Date()}}
+    return fields
+  })({}))
 
   schema.pre('save', function (next) {
-    this.updatedAt = new Date();
+    this[options.updatedAt] = new Date();
     next();
   });
 }
