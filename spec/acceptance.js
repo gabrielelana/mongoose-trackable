@@ -1,4 +1,5 @@
-var expect = require('chai').expect,
+var chai = require('chai').use(require('chai-datetime')),
+    expect = chai.expect,
     mongoose = require('mongoose'),
     trackable = require('./../')
 
@@ -40,6 +41,15 @@ describe('mongoose-trackable', function() {
               done()
             })
           })
+        })
+    })
+
+    it('could inject createdAt value', function(done) {
+      var forceToBeCreatedAt = new Date(100)
+      this.modelWithTrackablePlugin('TrackableWithCreatedAtOverrided')
+        .create({createdAt: forceToBeCreatedAt}, function(err, doc) {
+          expect(doc.createdAt).to.be.equalTime(forceToBeCreatedAt)
+          done()
         })
     })
 
