@@ -4,6 +4,7 @@ module.exports = function(schema, options) {
   options = _.extend(
     { createdAt: 'createdAt',
       updatedAt: 'updatedAt',
+      skipToTrackUpdates: false
     },
     options || {}
   )
@@ -15,7 +16,9 @@ module.exports = function(schema, options) {
   })({}))
 
   schema.pre('save', function (next) {
-    this[options.updatedAt] = new Date();
+    if (!options.skipToTrackUpdates) {
+      this[options.updatedAt] = new Date();
+    }
     next();
   });
 }

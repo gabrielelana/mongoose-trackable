@@ -53,6 +53,15 @@ describe('mongoose-trackable', function() {
         })
     })
 
+    it('could inject createdAt value', function(done) {
+      var forceToBeUpdatedAt = new Date(200)
+      this.modelWithTrackablePlugin('TrackableWithUpdatedAtOverrided', {skipToTrackUpdates: true})
+        .create({updatedAt: forceToBeUpdatedAt}, function(err, doc) {
+          expect(doc.updatedAt).to.be.equalTime(forceToBeUpdatedAt)
+          done()
+        })
+    })
+
     it('could customize createdAt field name with createdAt option', function(done) {
       this.modelWithTrackablePlugin(
           'TrackableWithCustomCreatedAtField',
