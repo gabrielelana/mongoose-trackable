@@ -53,7 +53,7 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
       })
   })
 
-  it('could inject createdAt value', function(done) {
+  it('could inject updatedAt value', function(done) {
     var forceToBeUpdatedAt = new Date(200)
     this.modelWithTrackablePlugin('TrackableWithUpdatedAtOverrided', {skipToTrackUpdates: true})
       .create({updatedAt: forceToBeUpdatedAt}, function(err, doc) {
