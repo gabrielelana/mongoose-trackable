@@ -1,7 +1,7 @@
 {
   "name": "mongoose-trackable",
-  "version": "0.0.1",
-  "description": "keeps track of when the document has been created, updated and optionally when some fields has been changed",
+  "version": "0.1.0",
+  "description": "keeps track of when the document has been created, updated and optionally when some fields have been modified",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive --reporter=spec --colors spec"
