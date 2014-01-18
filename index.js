@@ -10,7 +10,13 @@ module.exports = function(schema, options) {
     options || {}
   )
 
-  options.fieldsToTrack = [].concat(options.fieldsToTrack)
+  options.fieldsToTrack = _([])
+    .chain()
+    .concat(options.fieldsToTrack)
+    .reject(function(field) {
+      return _(['__updates', options.createdAt, options.updatedAt]).contains(field)
+    })
+    .valueOf()
 
   schema.add((function(fields) {
     fields[options.createdAt] = {type: Date, default: function() {return new Date()}}
