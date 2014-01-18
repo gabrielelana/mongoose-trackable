@@ -137,4 +137,12 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
         done()
       })
   })
+
+  it('doesn\'t track fields that don\'t exists', function(done) {
+    this.modelWithTrackablePlugin('TrackableWithFieldsThatDontExists', {fieldsToTrack: 'missing'})
+      .create({}, function(err, doc) {
+        expect(doc.get('__updates')).to.be.an('array').and.to.be.empty
+        done()
+      })
+  })
 })

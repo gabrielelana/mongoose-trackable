@@ -35,10 +35,10 @@ module.exports = function(schema, options) {
 
       if (doc.isModified()) {
         options.fieldsToTrack.forEach(function(field) {
-          if (doc.isNew || doc.isModified(field)) {
+          if ((doc.isNew && doc.get(field)) || doc.isModified(field)) {
             doc.get('__updates').push({
               field: field,
-              changedTo: doc[field],
+              changedTo: doc.get(field),
               at: now
             })
           }
