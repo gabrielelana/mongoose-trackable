@@ -62,6 +62,20 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
       })
   })
 
+  it('could stub current time', function(done) {
+    var now = new Date(42),
+        model = this.modelWithTrackablePlugin('TrackableWithStubbedTime')
+
+    model.schema.stopTheFlowOfTimeAt(now)
+    model.create({}, function(err, doc) {
+        expect(doc.createdAt).to.be.equalTime(now)
+        expect(doc.updatedAt).to.be.equalTime(now)
+
+        model.schema.restoreTheFlowOfTime()
+        done()
+      })
+  })
+
   it('could customize createdAt field name with createdAt option', function(done) {
     this.modelWithTrackablePlugin(
         'TrackableWithCustomCreatedAtField',

@@ -19,8 +19,8 @@ module.exports = function(schema, options) {
     .valueOf()
 
   schema.add((function(fields) {
-    fields[options.createdAt] = {type: Date, default: function() {return new Date()}}
-    fields[options.updatedAt] = {type: Date, default: function() {return new Date()}}
+    fields[options.createdAt] = {type: Date, default: function() {return schema.trackAt()}}
+    fields[options.updatedAt] = {type: Date, default: function() {return schema.trackAt()}}
     if (options.fieldsToTrack.length > 0) {
       fields['__updates'] = {type: Array}
     }
@@ -28,7 +28,7 @@ module.exports = function(schema, options) {
   })({}))
 
   schema.pre('save', function(next) {
-    var doc = this, now = new Date()
+    var doc = this, now = schema.trackAt()
 
     if (!options.skipToTrackUpdates) {
       doc.set(options.updatedAt, now)
@@ -45,6 +45,25 @@ module.exports = function(schema, options) {
         })
       }
     }
-    next();
-  });
+    next()
+  })
+
+  schema.stopTheFlowOfTimeAt = function(now) {
+    schema['__at'] = now || new Date()
+  }
+
+  schema.restoreTheFlowOfTime = function() {
+    delete schema['__at']
+  }
+
+  schema.theFlowOfTimeHasStopped = function() {
+    return this['__at'] && this['__at'] instanceof Date
+  }
+
+  schema.trackAt = function() {
+    if (this.theFlowOfTimeHasStopped()) {
+      return this['__at']
+    }
+    return new Date()
+  }
 }
