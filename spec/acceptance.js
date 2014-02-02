@@ -62,6 +62,32 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
       })
   })
 
+  it('could tell when it was created', function(done) {
+    var now = new Date(42),
+        model = this.modelWithTrackablePlugin('TrackableWithCreatedBetween')
+
+    model.schema.stopTheFlowOfTimeAt(now)
+    model.create({}, function(err, doc) {
+      model.createdBetween(now.getTime() - 10, now.getTime() + 10, function(err, result) {
+        expect(result).to.have.length(1)
+        done()
+      })
+    })
+  })
+
+  it('could tell when it was created', function(done) {
+    var now = new Date(42),
+        model = this.modelWithTrackablePlugin('TrackableWithUpdatedBetween')
+
+    model.schema.stopTheFlowOfTimeAt(now)
+    model.create({}, function(err, doc) {
+      model.updatedBetween(now.getTime() - 10, now.getTime() + 10, function(err, result) {
+        expect(result).to.have.length(1)
+        done()
+      })
+    })
+  })
+
   it('could stub current time', function(done) {
     var now = new Date(42),
         model = this.modelWithTrackablePlugin('TrackableWithStubbedTime')

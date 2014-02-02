@@ -66,4 +66,18 @@ module.exports = function(schema, options) {
     }
     return new Date()
   }
+
+  ;['created', 'updated'].forEach(function(event) {
+    schema.statics[event + 'Between'] = function(fromTimestamp, toTimestamp, callback) {
+      var query =
+        this.where(options[event + 'At'])
+          .gte(new Date(fromTimestamp))
+          .lte(new Date(toTimestamp))
+
+      if (callback) {
+        return query.exec(callback)
+      }
+      return query
+    }
+  })
 }
