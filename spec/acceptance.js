@@ -94,12 +94,12 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
 
     model.schema.stopTheFlowOfTimeAt(now)
     model.create({}, function(err, doc) {
-        expect(doc.createdAt).to.be.equalTime(now)
-        expect(doc.updatedAt).to.be.equalTime(now)
+      expect(doc.createdAt).to.be.equalTime(now)
+      expect(doc.updatedAt).to.be.equalTime(now)
 
-        model.schema.restoreTheFlowOfTime()
-        done()
-      })
+      model.schema.restoreTheFlowOfTime()
+      done()
+    })
   })
 
   it('could customize createdAt field name with createdAt option', function(done) {
@@ -147,16 +147,16 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
       {fieldsToTrack: ['status', 'location']},
       {status: 'string', location: 'string'}
     ).create({status: 'shipped', location: 'Chicago'}, function(err, doc) {
-        expect(doc).to.have.property('status', 'shipped')
-        expect(doc).to.have.property('location', 'Chicago')
+      expect(doc).to.have.property('status', 'shipped')
+      expect(doc).to.have.property('location', 'Chicago')
 
-        var changesToStatusField = _.chain(doc.__updates).filter(function(u) {return u.field === 'status'}).pluck('changedTo').valueOf()
-        var changesToLocationField = _.chain(doc.__updates).filter(function(u) {return u.field === 'location'}).pluck('changedTo').valueOf()
+      var changesToStatusField = _.chain(doc.__updates).filter(function(u) {return u.field === 'status'}).pluck('changedTo').valueOf()
+      var changesToLocationField = _.chain(doc.__updates).filter(function(u) {return u.field === 'location'}).pluck('changedTo').valueOf()
 
-        expect(changesToStatusField).to.eql(['shipped'])
-        expect(changesToLocationField).to.eql(['Chicago'])
-        done()
-      })
+      expect(changesToStatusField).to.eql(['shipped'])
+      expect(changesToLocationField).to.eql(['Chicago'])
+      done()
+    })
   })
 
   it('doesn\'t track fields that are not to track', function(done) {
