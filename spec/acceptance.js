@@ -6,14 +6,20 @@ var chai = require('chai').use(require('chai-datetime')),
 
 describe('mongoose-trackable plugged into a mongoose.Schema', function() {
   before(function(done) {
+    // TODO: get rid of this duplication, with mocha-mongoose?
     mongoose.connect('mongodb://localhost/mongoose-trackable-test', function(err) {
       if (err) {
         console.error('MongoDB: ' + err.message)
         console.error('MongoDB is running? Is it accessible by this application?')
         return done(err)
       }
+      // TODO: dropDatabase is quicker than dropping all the collections?
       mongoose.connection.db.dropDatabase(done)
     })
+  })
+
+  after(function(done) {
+    mongoose.connection.close(done)
   })
 
   before(function() {
@@ -60,32 +66,6 @@ describe('mongoose-trackable plugged into a mongoose.Schema', function() {
         expect(doc.updatedAt).to.be.equalTime(forceToBeUpdatedAt)
         done()
       })
-  })
-
-  it('could tell when it was created', function(done) {
-    var now = new Date(42),
-        model = this.modelWithTrackablePlugin('TrackableWithCreatedBetween')
-
-    model.schema.stopTheFlowOfTimeAt(now)
-    model.create({}, function(err, doc) {
-      model.createdBetween(now.getTime() - 10, now.getTime() + 10, function(err, result) {
-        expect(result).to.have.length(1)
-        done()
-      })
-    })
-  })
-
-  it('could tell when it was created', function(done) {
-    var now = new Date(42),
-        model = this.modelWithTrackablePlugin('TrackableWithUpdatedBetween')
-
-    model.schema.stopTheFlowOfTimeAt(now)
-    model.create({}, function(err, doc) {
-      model.updatedBetween(now.getTime() - 10, now.getTime() + 10, function(err, result) {
-        expect(result).to.have.length(1)
-        done()
-      })
-    })
   })
 
   it('could stub current time', function(done) {
