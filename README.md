@@ -23,7 +23,7 @@ Order.create({products: ['apple']}, function(err, order) {
   })
 })
 ```
-Order is a trackable model, by default a trackable model will tracke the creation time in the `createdAt` field and last update time in the `updatedAt` field
+Order is a trackable model, by default a trackable model will track the creation time in the `createdAt` field and last update time in the `updatedAt` field
 
 Moreover you can keep track of all the changes of a certain field using the option `fieldsToTrack`
 ```javascript
@@ -55,4 +55,4 @@ For more options and more use cases see `spec/acceptance.js`
 
 # TODO
 * more and better documentation
-* skiptToTrackDocumentUpdates vs skipToTrackFieldsUpdates
+* `skiptToTrackDocumentUpdates` vs `skipToTrackFieldsUpdates`
