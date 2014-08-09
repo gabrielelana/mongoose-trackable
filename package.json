@@ -1,6 +1,6 @@
 {
   "name": "mongoose-trackable",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "keeps track of when the document has been created, updated and optionally when some fields have been modified",
   "main": "index.js",
   "scripts": {
