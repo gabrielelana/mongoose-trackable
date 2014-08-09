@@ -41,8 +41,7 @@ describe('Model with mongoose-trackable plugin', function() {
       })
     })
 
-    xit('should be createdBetween and updatedBetween X - 10 and X + 10', function(done) {
-      // whithout a callback createdBetween and updatedBetween are chainable
+    it('should be createdBetween and updatedBetween X - 10 and X + 10', function(done) {
       this.Model
         .createdBetween(this.timeX.getTime() - 10, this.timeX.getTime() + 10)
         .updatedBetween(this.timeX.getTime() - 10, this.timeX.getTime() + 10)
@@ -53,7 +52,6 @@ describe('Model with mongoose-trackable plugin', function() {
         })
     })
 
-    // TODO: generate all those tests
     it('should be createdBetween X - 10 and X + 10', function(done) {
       this.Model.createdBetween(this.timeX.getTime() - 10, this.timeX.getTime() + 10, function(err, result) {
         // TODO: need better expectations but chai-mongoose doesn't exists...

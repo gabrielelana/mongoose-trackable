@@ -77,6 +77,15 @@ module.exports = function(schema, options) {
       if (callback) {
         return query.exec(callback)
       }
+
+      _(['created', 'updated']).without(event).forEach(function(event) {
+        query[event + 'Between'] = function(fromTimestamp, toTimestamp, callback) {
+          return query.where(options[event + 'At'])
+              .gte(new Date(fromTimestamp))
+              .lte(new Date(toTimestamp))
+        }
+      })
+
       return query
     }
   })
