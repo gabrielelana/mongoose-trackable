@@ -1,5 +1,5 @@
 # What
-Is a mongoose plugin that automatically keeps track of when the document has been created, updated and optionally when some fields have been modified
+It's a mongoose plugin that automatically keeps track of when the document has been created, updated and, optionally, when some fields have been modified
 
 [![Build Status](https://travis-ci.org/gabrielelana/mongoose-trackable.png?branch=master)](https://travis-ci.org/gabrielelana/mongoose-trackable)
 
